@@ -27,9 +27,11 @@ Thank you for using Codoworks Go Boilerplate.
 	
 This service is designed for developers to build backend API as quickly as possible - almost as simply as copy and pasting components. The goal is to be able to clone this repository, rename it and get started with your first RESTful CRUD API within minutes.
 
-There are many HTTP libraries on GitHub that enable quick and easy API development, but as your project scales it can quickly become messy without proper structure and workflows,and even more when preparing for production or managing security. 
+There are many HTTP libraries on GitHub that enable quick and easy API development, but as your project scales it can quickly become messy without proper structure and workflows, and even more when preparing for production or managing security.
 
 Codoworks Go Boilerplate has all your production needs taken care of in advance, so you can focus your efforts on creating business and application logics.
+
+It's worth noting that this package builds upon [Echo](https://echo.labstack.com).
 
 #### Multi-routers
 
@@ -45,13 +47,13 @@ With this structure, the default router is assumed to be the protected one as mo
 
 #### Modular
 
-Speaking of login, this service is designed to be used alongside self-hosted [ory kratos](https://www.ory.sh/open-source/) for authentication. Since this boilerplate is designed to be modular, you may choose another service provider instead of Kratos. All you have to do is change the authentication.go middleware to your desired service. 
+Speaking of login, this service is designed to be used with self-hosted [ory kratos](https://www.ory.sh/open-source/) for authentication. Since this boilerplate is designed to be modular, you may choose another service provider instead of Kratos. All you have to do is change the authentication.go middleware to your desired service. 
 
 Similarly for authorisation, [ory keto](https://www.ory.sh/open-source/) is the default client for this service as it is well-designed to manage large volumes of transactions.
 
 #### Maintenance
 
-Often, you may need to run something in the background like a cleanup job or perhaps an email water. This service is designed with that in mind too. It even provides a watcher that you can run with an http server or indenpendently. Using the same structure you can create your own too.
+Often, you may need to run something in the background like a cleanup job or perhaps an email watcher. This service is designed with that in mind too. It even provides a watcher that you can run with an http server or indenpendently. Using the same structure you can create your own too.
 
 #### Administration
 
