@@ -273,7 +273,7 @@ To run the service without building, run `go run .` this will achieve the same r
 
 However when you're running a large project with multiple micro-services (multiple instances of this boilerplate), it can be handy to live edit your code while in docker, for that we've designed the `Dockerfile.dev` to get your started.
 
-Simply run `make docker-dev` to get up and running, and to stop it, use `make stop-docker-dev`. Make sure you set your env correctly. 
+Simply run `make quick-start` to get up and running, and to stop it, use `Ctrl+C`. Make sure you set your env correctly. 
 
 ### Build
 
