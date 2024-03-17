@@ -31,7 +31,7 @@ There are many HTTP libraries on GitHub that enable quick and easy API developme
 
 Codoworks Go Boilerplate has all your production needs taken care of in advance, so you can focus your efforts on creating business and application logics.
 
-It's worth noting that this package builds upon [Echo](https://echo.labstack.com).
+It's worth noting that this package builds upon [Echo](https://echo.labstack.com) but you can easily adapt it to a different framework.
 
 #### Multi-routers
 
@@ -57,7 +57,7 @@ Often, you may need to run something in the background like a cleanup job or per
 
 #### Administration
 
-A well-designed service should also enable the user to perform certain administrative tasks out of the box, like providing a specific user with a given email address, system-admin permissions and so on. It's likely that a user interface for such feature is not a priority on your product roadmap, hence an API was never developed so you can't use Postman to do it. For this type of scenario, this boilerplate is shipped with tasks that you can easily extend and execute via command line.
+A well-designed service should also enable the user to perform certain administrative tasks out of the box, like providing a specific user with a given email address or system admin permission. It's likely that a user interface for such feature is not a priority on your product roadmap, hence an API is never developed and as a result, you cannot make use of Postman. To prevent this type of scenario, this boilerplate is shipped with tasks that you can easily extend and execute via command line.
 
 #### Database
 
@@ -122,8 +122,8 @@ We hope you enjoy using Codoworks Go Boilerplate. If you do, please support us b
 ```
 7. List available routes using `go run . info protected-api-routes` and use your favourite API client to test. or use the following to get started and make sure you're up and running.
 ```bash
-curl -H "Accept: application/json" http://127.0.0.1:8080/health/alive
-curl -H "Accept: application/json" http://127.0.0.1:8080/health/ready
+curl -H "Accept: application/json" http://127.0.0.1:8081/health/alive
+curl -H "Accept: application/json" http://127.0.0.1:8081/health/ready
 ```
 
 > Recommended: run `go run .` and explore all available options, it should be straightforward.
@@ -179,22 +179,9 @@ Environment variables are evaluated in the following order to allow flexibility 
 
 Example: if you have `HOST=127.0.0.1` in the `.env` file and `$ EXPORT HOST=0.0.0.0` in a terminal, the service will first read the first value in the env file, which is then overriden by the value in the terminal environment. 
 
-During development, it's recommended to use a `.env` file. You can find a reference under `./.env.sample` to get you started. 
+During development, it is recommended to use a `.env` file. You can find a reference under `./.env.sample` to get started. 
 
-If you're using docker for development you can uncomment the following line from `./ci/compose` to signal docker to pick up the `.env` file.
-```Dockerfile
-...
-services:
-  go-boilerplate:
-  ...
-    # env_file: ../../.env
-  ...
-...
-```
-
-> This was left commented out by default to avoid errors because `.env` is ignored via `.gitignore` , plus all env vars are optional.
-
-To ease your development process, we've included a command to print the environment to better understand why your app is behaving the way it is, simply run `go run . info env`. Together with `go run . info features` you should be able to get to the bottom of whatever is happening. 
+To ease your development process, we've included a command to print the environment to better understand your app behaviour. Simply run `go run . info env`. Together with `go run . info features` you should be able to get to the bottom of something. 
 
 
 <details>
@@ -203,9 +190,9 @@ To ease your development process, we've included a command to print the environm
 | Var Name | Required | Description |
 | -------- | -------- | ----------- |
 | `HOST` | optional | service host address. default: 0.0.0.0 |
-| `PORT` | optional | service port. default: 8080 |
-| `PUBLIC_PORT` | optional | service port. default: 8081 |
-| `HIDDEN_PORT` | optional | service port. default: 8079 |
+| `PROTECTED_API_PORT` | optional | service port. default: 8080 |
+| `PUBLIC_API_PORT` | optional | service port. default: 8081 |
+| `HIDDEN_API_PORT` | optional | service port. default: 8079 |
 | `DB_HOST` | optional | database host |
 | `DB_PORT` | optional | database port |
 | `DB_USER` | optional | database username |
@@ -228,7 +215,7 @@ To ease your development process, we've included a command to print the environm
 
 ### Execution Modes
 
-The service can run in one of two modes, either production and development modes. 
+The service can run in one of two modes, production mode or development mode. 
 
 Development mode is activated using the `-d` or `--dev` flag. Running in this mode will lock the service host to `127.0.0.1` to avoid firewall issues when developing using macOS. You can override this setting using `-H 0.0.0.0` if needed. 
 
@@ -295,10 +282,10 @@ To build, run `go build .` this will generate a binary with the default name of 
 If you've executed the above, you may notice the version by running `./go-boilerplate version` is set to `2.x.x-default`, that's because this is the second interation of this boilerplate. It's recommended that you burn the version into the binary in build time to create versioned builds. To do that, use the following command to build instead
 
 ```bash
-go build -ldflags="-w -s -X main.VERSION=<YOUR.VERION.HERE>"
+go build -ldflags="-w -s -extldflags '-static' -X main.VERSION=<YOUR.VERION.HERE>"
 
 # Example
-go build -ldflags="-w -s -X main.VERSION=1.0.0"
+go build -ldflags="-w -s -extldflags '-static' -X main.VERSION=1.0.0"
 ./go-boilerplate version
 # v1.0.0
 ```
@@ -374,7 +361,7 @@ It's recommended to declare your models within each migration (separately from m
 <details>
 <summary><b>Seeds</b></summary>
 
-Seeds are very similar to migrations, the key difference between the two is that seeds don't implement the `Rollback` function. That's because seeds are intended to create content inside the database, they don't modify the database structure in any way so there's no need for rollbacks. 
+Seeds are very similar to migrations, the key difference between the two is that seeds do not implement the `Rollback` function. That's because seeds are intended to create content inside the database, they don't modify the database structure in any way so there's no need for rollbacks. 
 
 Just like migrations, seeds are applied once, and tracked using their unique identifier `ID` by [GoMigrate](https://github.com/go-gormigrate/gormigrate).
 
@@ -398,7 +385,7 @@ func init() {
 }
 ```
 
-And here's a sample seed to give an idea of how you can utilize seeds.
+And here's a sample seed to give an idea of how you can utilise seeds.
 
 ```Go
 func init() {
@@ -443,7 +430,7 @@ func init() {
 
 Models can sometimes be a complex aspect of any application, in this section you'll find a breakdown on how you can compose your models or database entities. 
 
-#### Model structure 
+#### Model Structure 
 
 The first thing you'd want to do is to create a struct that matches your database schema, almost all models should embed the `ModelBase` struct that provides the `ID`, `CreatedAt` and `UpdatedAt` properties, excepts can be things like a many to many table where you only need to store 2 identifiers. To learn more about model declarations you can refer to [Gorm](https://gorm.io) official comprehensive documentation. 
 
@@ -462,7 +449,7 @@ Your model may sometimes contain properties that do not correspond to a database
 
 > Note: given this package is designed to work with multiple database servers like mysql or postgres. Some data types may be available in some servers and not others, it's worth testing your application with differnet servers from time to time as you go to accomodate the ease of switching database server, unless your use-case relies on that specific data type in which case you're making an informed decision to lock your application to that server.
 
-#### Common basic functionality
+#### Common Basic Functionality
 
 Now that you have a structure that corresponds to a table in your database, some common functionality is in order. Generally one would expect at least the basic CRUD functionality, and ofcourse reading can mean one or more records so more functions can be added. Here's a basic CRUD implementation that is required for any model.
 
@@ -511,12 +498,12 @@ func (model *Cat) Delete(id string) error {
 }
 ```
 
-All of the above functions will return an error if they weren't able to perform what they're supposed to do, that's useful to inform the user if the data they're looking for exists or is stored. For detailed utilization of these functions, have a look the handlers section. 
+All of the above functions will return an error if they cannot perform what they're supposed to do, that's useful to inform the user if the data they're looking for exists or is stored. For detailed utilization of these functions, have a look the handlers section. 
 
 These functions are not abstracted to allow granular control over each model as each individual model can quickly morph into something very large with child elements, preload functions and pagination. 
 
 
-#### Model accessibility
+#### Model Accessibility
 
 Given the basic functionality defined in the previous section, we've created the ability to do something like the following:
 ```Go
@@ -542,7 +529,7 @@ The above will now create a singleton pattern that you can access from any compo
 
 > Note: the `CatModel()` method should only be used to fetch data from the database, saving, updating and deleting data should be applied to an actual instance that has been returned through a `Find()`, `FindAll()` or `FindMany()` functions.
 
-#### Working with json forms
+#### Working with JSON Forms
 
 Once you have retrieved the records needed from the database, you may want to send those records as a response to the user. To do that, forms have been created, while every model is expected to have at least one method named `MapToForm()` that returns a json representation of that model. 
 
@@ -873,9 +860,9 @@ List of development dependencies:
 
 ### Contribution
 
-We're looking for contributors, all ideas are welcome. Feel free start a new discussion, open a new PR etc, if you wish to join the team just let us know using the contact below. 
+We're looking for contributors and all ideas are welcome. Feel free to start a new discussion, submit a new PR etc.. If you wish to join the team, just reach out to us on Discord.
 
 ### Contacts
 
-- [Dexter Codo](mailto:dexter@dexterexplains.com)
 - [Join our Discord channel](https://discord.gg/Q27kgPVub7)
+- [Dexter Codo](mailto:dexter@dexterexplains.com)
