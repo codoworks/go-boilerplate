@@ -318,7 +318,7 @@ Migrations go under `pkg/db/migrations/<myNewMigration>.go`. Its implemention us
 
 
 Here's a sample migration to get you started:
-```go
+```Go
 func init() {
 	m := &gormigrate.Migration{}
 
@@ -682,15 +682,15 @@ This boilerplate is shipped with 3 routers, public, privdate and hidden routers 
 Why have 3 routers? Well, some projects may have public and protected routes, and such use case is straightforward. The latter implements an authentication middleware while the first does not. Attempting to achieve such behaviour within a single router can be tricky, so isolated routers running on different ports are used instead. The third "hidden" router is provided to enable a pattern commonly used to allow one microservice to communicate with another without exposing those routes to the public internet. With that said, wiring those 3 routers can easily be achieved through a different service like Kubernetes or NGINX. 
 
 All routers should go through the following process: 
-1. Initialization 
+1. Initialisation 
 2. Checking for DevMode and enabling related middlewares 
 3. Register common middleware 
 4. Register health routes
-5. Register security middlware 
-6. Register user defined routes
+5. Register security middleware 
+6. Register user-defined routes
 7. Register error handler 
 
-Have a look at `pkg/api/routers/protectedApi.go` to familiarize yourself with router initialization process, If you've already created your handlers from the previous section, all you need is to add your new route to this file like so:
+Have a look at `pkg/api/routers/protectedApi.go` to familiarise yourself with router initialisation process. If you've already created your handlers from the previous section, all you need is to add your new route to this file as such:
 ```Go
 func registerProtectedAPIRoutes() {
 	cats := protectedApiRouter.Echo.Group("/cats") // Your new REST resource
@@ -709,11 +709,11 @@ func registerProtectedAPIRoutes() {
 <details>
 <summary><b>Tasks</b></summary>
 
-Tasks is a way to extend the command line cli without having to go through the trouble of understanding the initialization process.
+Tasks is a way to extend the command line CLI without having to go through the trouble of understanding the initialisation process.
 
-To create a new task, simply add the following sample into a new file `./pkg/tasks/<myTask>.go`
+To create a new task, simply add the following sample into a new file `./pkg/tasks/<myTask>.go`:
 
-```go
+```Go
 
 func init() {
 	var t = &Task{
@@ -732,35 +732,35 @@ func execMyTask(env *TaskEnv, args map[string]string) error {
 }
 ```
 
-Tasks are automatically injected with an `env` object that contains the environment. they're also injected with an `args` map containing any values added to the exec command, as long as they're separated by '=' like `key1=value1 key2=value2 key3=value3 `.
+Tasks are automatically injected with an `env` object that contains the environment. They are also injected with an `args` map containing any values added to the exec command, as long as they're separated by '=' e.g. `key1=value1 key2=value2 key3=value3 `.
 
-You can also set the required arguments in `myTask.RequiredArgs = []string{"key1", "key2"}` to prevent execution unless all arguments are provided.
+You can also set the required arguments in `myTask.RequiredArgs = []string{"key1", "key2"}` to prevent execution until all arguments are provided.
 
-To execute the above task, simply run `go run . task exec myTask` and you should get the "My first task is executed!" message.
+To execute the task above, simply run `go run . task exec myTask` and you should get the "My first task is executed!" message.
 
 </details>
 
 <details>
 <summary><b>Error Handling</b></summary>
 
-This boilerplate aims to automate error handling and error responses. 
+This boilerplate automates error handling and error responses. 
 
-First let's talk about logging error. When using proper logging mechanics and log levels, you can then leave all your logs in the code and have them printed depending on their severity. The package is shipped with the function `helpers.Error()`, a wrapper that's intended to log an error and return it. Those logs will only be visible if the `LOG_LEVEL` env var permits. Avoid using `fmt.Println()` at all time, instead, you can use `logger.Debug()` or if you're within a handler you can use the `c.Logger().Debug()` helper.
+First, let's talk about logging errors. When using proper logging mechanics and log levels, you can then leave all your logs in the code and have them printed depending on their severity. The package is shipped with the function `helpers.Error()`, a wrapper that's intended to log an error and return it. These logs will only be visible if the `LOG_LEVEL` env var permits. Avoid using `fmt.Println()` at all times, instead, use `logger.Debug()` or if you're within a handler, you can use the `c.Logger().Debug()` helper.
 
-Given that each handler can return an error, the router is configured to handler that error using `pkg/api/handlers/errors/automatedHttpError.go` which will unwrap the error, match it with a list of registered errors under `pkg/api/handlers/errors/errors.go`. Finally, it will construct an error response and respond to that request. 
+Given that each handler can return an error, the router is configured to handle the error using `pkg/api/handlers/errors/automatedHttpError.go` which will unwrap the error and match it with a list of registered errors under `pkg/api/handlers/errors/errors.go`. Finally, it will construct an error response and respond to that request. 
 
 Validation errors are no different, except they're unwrapped further and sent to the user as individual form inputs so they can be displayed. 
 
-You're encouraged to register and maintain as many errors as you can in the same way, it's useful to have a specific error code mapped to each error, that way we can determine exactly what went wrong in each user-flow. 
+You're encouraged to register and maintain as many errors as you can in the same way. It's useful to have a specific error code mapped to each error, that way we can determine exactly what went wrong in each user flow. 
 
 </details>
 
 <details>
 <summary><b>Adding Env Vars & Features</b></summary>
 
-All environment variables reside in `pkg/config/features`, they're categorized under their respective features like `database.go` or `service.go`. Each env var must have a `mapstructure:` decoration that states how it's spelled in caps when parsing an ENV. You can add your own, it's as simple as adding a new line in any of these files or even create your own. 
+All environment variables reside in `pkg/config/features`. They're categorised within their respective features such as `database.go` or `service.go`. Each env var must have a `mapstructure:` decoration that spells it in caps when parsing an ENV. You can add your own, it's as simple as adding a new line in any of these files, or create your own. 
 
-Below is a sample of `pkg/config/features/service.go`
+Below is a sample of `pkg/config/features/service.go`:
 ```Go
 type ServiceConfig struct {
 	Host                   string `mapstructure:"HOST"`
@@ -794,15 +794,15 @@ func init() {
 }
 ```
 
-From the above example, you can find a type `ServiceConfig` that states what env vars are to be expected. All of these are automatically read from the environment. Env vars must belong to a feature which can be toggled on or off, a feature can also define which ones are required for it to be able to start. 
+From the example above, you can find a type `ServiceConfig` that states what env vars are to be expected. These are automatically read from the environment. Env vars must belong to a feature which can be toggled on or off. A feature can also define which env vars are required for it to start. 
 
-If you wish to disable that feature, you can mention it in the list of `DISABLE_FEATURES` var in run-time. 
+If you wish to disable a feature, you can mention it in the list of `DISABLE_FEATURES` var in run-time. 
 
-Reading the env vars is the job of `pkg/config/envVars.go`, Each config struct must be registered in `envVars.go`. The config struct is then automatically injected to it's respective feature once it's been initialized.
+Reading the env vars is the job of `pkg/config/envVars.go`. Each config struct must be registered in `envVars.go`. The config struct is then automatically injected to its respective feature after initialisation.
 
-It's possible to set a default value for each variable, this can be done in `pkg/config/envVars.go` under `setDefaults()`.
+It is possible to set a default value for each variable, this can be done in `pkg/config/envVars.go` under `setDefaults()`.
 
-By the time the CMD calls the Proc, all env vars would have already been read and injected into their features, making them available for the rest of the package. 
+By the time the CMD calls the Proc, all env vars should have already been read and injected into their features, making them available for the rest of the package. 
 
 </details>
 
@@ -810,29 +810,27 @@ By the time the CMD calls the Proc, all env vars would have already been read an
 <details>
 <summary><b>Folder Structure</b></summary>
 
-### root folder structure
+### Root Folder Structure
 
 The package is split into 3 directories
 
 | Directory | Description |
 | --------- | ----------- |
-| `/ci` | Contains all files related to building or deploying the service such as docker, docker compose, configuration and k8s files|
+| `/ci` | Contains all files related to building or deploying the service such as Docker, Docker compose, configuration and K8S files|
 | `/cmd` | Contains all available commands |
 | `/pkg` | Contains all source code files. This is where you'll be spending most of your time |
 
-### pkg folder structure
-
-Every folder must have a file with the same name. example: in `db` folder, there must be a `db.go` file
+### pkg Folder Structure
 
 | Directory | Description |
 | --------- | ----------- |
 | `/pkg/api` | Everything related to `Echo`, routers and handlers go in here |
-| `/pkg/clients` | These are clients used throughout the service. They can be third party services or simple config providers for workflows |
+| `/pkg/clients` | These are clients used throughout the service. They can be third-party services or simple config providers for workflows |
 | `/pkg/config` | Service configuration and environment variable management |
-| `/pkg/db` | Everything related to database entities and models, as well as migrations and seed data |
+| `/pkg/db` | Everything related to database entities and models, migrations, and seed data |
 | `/pkg/proc` | Entry points for all processes |
-| `/pkg/tasks` | User defined tasks available via the command line cli |
-| `/pkg/utils` | General utilities used throughout the package that don't belong to any specific package |
+| `/pkg/tasks` | User-defined tasks available via the command line CLI |
+| `/pkg/utils` | General utilities used throughout the package that do not belong to any specific package |
 
 
 <details>
@@ -914,9 +912,9 @@ Every folder must have a file with the same name. example: in `db` folder, there
 <details>
 <summary><b>Dependencies</b></summary>
 
-This package is purely written in Go, which eases dependency management. All dependencies can be easily installed using the `go get` command. 
+This package is purely written in Go, which helps with dependency management. All dependencies can be easily installed using the `go get` command. 
 
-There are only 2 optional dependencies that must be installed separately, you can choose to install them or not, the first is [Air](https://github.com/cosmtrek/air) used for [live-reload](#live-reload), and the other is [Docker](https://www.docker.com/products/docker-desktop/).
+There are only 2 optional dependencies that can be installed separately. The first is [Air](https://github.com/cosmtrek/air) used for [live-reload](#live-reload), and the other is [Docker](https://www.docker.com/products/docker-desktop/).
 
 List of run-time dependencies:
 
@@ -945,7 +943,7 @@ List of development dependencies:
 <details open>
 <summary><b>Known Issues</b></summary>
 
-- Gorm v1.25.6 and v1.25.7 are known to cause issues with PostgreSQL database. If you experience an error `this driver does not support LastInsertID()`, try downgrading gorm to v1.25.5
+- Gorm v1.25.6 and v1.25.7 are known to cause issues with PostgreSQL database. If you experience an error `this driver does not support LastInsertID()`, try downgrading Gorm to v1.25.5
 
 </details>
 
@@ -961,7 +959,7 @@ List of development dependencies:
 - [ ] Enhanced error handling
 - [ ] Quick start examples
 	- [ ] Example with Kratos for authentication
-	- [ ] Example with Keto for authorization
+	- [ ] Example with Keto for authorisation
 - [ ] Code cleanup and in-line documentation
 - [ ] Swagger integration
 - [ ] Postman collection
@@ -975,7 +973,7 @@ List of development dependencies:
 
 ### Contribution
 
-We're looking for contributors and all ideas are welcome. Feel free to start a new discussion, submit a new PR etc.. If you wish to join the team, just reach out to us on Discord.
+Feel free to start a new discussion, submit a new PR, make a feature request or etc.. If you would like to join the team, reach out to us on Discord. We are always looking for contributors!
 
 ### Contacts
 
