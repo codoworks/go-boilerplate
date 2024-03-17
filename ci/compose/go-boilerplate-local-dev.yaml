@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  go-boilerplate-dev-service:
+    container_name: go-boilerplate-dev-service
+    build:
+      context: ./
+      dockerfile: ./ci/docker/Dockerfile.dev
+    ports:
+      - "8081:8081"
+      - "8080:8080"
+      - "8079:8079"
+    env_file: ./ci/config/boilerplate/go-boilerplate.dev-env
+    volumes:
+      - ./:/app
+    command:
+      - air
+      - --build.bin
+      - "./tmp/main start -d -e -H 0.0.0.0"

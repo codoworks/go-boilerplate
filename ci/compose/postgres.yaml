@@ -1,0 +1,16 @@
+version: '3.7'
+services: 
+  go-boilerplate-postgres:
+    container_name: go-boilerplate-postgres
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    env_file: ../config/postgres/postgres.env
+    # volumes:
+      # - ../data/postgres:/var/lib/postgres check this
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 55

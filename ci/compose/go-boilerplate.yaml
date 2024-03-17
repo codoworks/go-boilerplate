@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  go-boilerplate-service:
+    container_name: go-boilerplate-service
+    build:
+      context: ../../
+      dockerfile: ./ci/docker/Dockerfile
+    ports:
+      - "8081:8081"
+      - "8080:8080"
+      - "8079:8079"
+    env_file: ../config/boilerplate/go-boilerplate.dev-env
+    volumes:
+      - type: bind
+        source: ../data/sqlite/sqlite.db
+        target: /app/sqlite.db
+    command:
+      - "service" 
+      - "start"
+      - "-d"
+      - "-e"
+      - "-H"
+      - "0.0.0.0"

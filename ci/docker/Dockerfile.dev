@@ -1,0 +1,14 @@
+FROM golang:1.21
+
+RUN apt-get update \
+  && apt-get install -y \
+  git \
+  && go install github.com/cosmtrek/air@v1.49.0
+  
+WORKDIR /app
+
+COPY . .
+
+RUN go get -d -v
+
+CMD ["air"]

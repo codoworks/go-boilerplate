@@ -1,0 +1,69 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: AppName-Ingress # Change me
+  namespace: ProjectNamespace # Change me
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "Access-Control-Allow-Origin: http://domain.com"
+    nginx.ingress.kubernetes.io/cors-allow-headers: >-
+      Keep-Alive,
+      User-Agent,
+      X-Requested-With,
+      Cache-Control,
+      Accept,
+      Content-Type,
+      Authorization,
+      X-Forwarded-For,
+      Strict-Transport-Security,
+      Cookie,
+      X-Kratos-Authenticated-Identity-Id,
+      Set-Cookie,
+      X-CSRF-Token,
+      X-Session-Token
+    nginx.ingress.kubernetes.io/cors-allow-methods: GET, PUT, POST, DELETE, PATCH, OPTIONS
+    nginx.ingress.kubernetes.io/cors-allow-origin: http://domain.com # Change me
+    nginx.ingress.kubernetes.io/cors-expose-headers: >-
+      Content-Type,
+      Content-Length,
+      Content-Range,
+      User-Agent,
+      Cache-Control,
+      Set-Cookie,
+      Authorization,
+      X-Session-Token,
+      X-CSRF-Token,
+      X-XSRF-Token,
+      Cookie,
+      Origin,
+      Access-Controll-Allow-Origins,
+      Access-Controll-Allow-Headers,
+      Access-Controll-Allow-Methods
+    nginx.ingress.kubernetes.io/enable-cors: 'true'
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+spec:
+  tls:
+    - hosts:
+      - domain.com # Change me
+      secretName: domain-com # Change me - with dashes
+  rules:
+    - host: domain.com # Change me
+      http:
+        paths:
+          - path: /kratos(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: kratos-service
+                port:
+                  number: 443
+          - path: /fryktos(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: AppName-Service # Change me
+                port:
+                  number: 443

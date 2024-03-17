@@ -1,0 +1,7 @@
+DB_HOST=host.docker.internal
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=password
+DB_NAME=go-boilerplate
+DB_PLATFORM=mysql
+DISABLE_FEATURES=ory_keto,ory_kratos,redis,cors

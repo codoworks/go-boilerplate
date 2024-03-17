@@ -1,0 +1,9 @@
+DB_HOST=host.docker.internal
+DB_PORT=5432
+DB_USER=admin
+DB_PASSWORD=password
+DB_NAME=go-boilerplate
+DB_PLATFORM=postgres
+DB_SSL_MODE=disable
+LOG_LEVEL=debug
+DISABLE_FEATURES=ory_keto,ory_kratos,redis,cors

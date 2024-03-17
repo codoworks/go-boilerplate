@@ -1,0 +1,49 @@
+version: '3.7'
+services: 
+
+  go-boilerplate-mysql:
+    extends: 
+      file: ./ci/compose/mysql.yaml
+      service: go-boilerplate-mysql
+
+  go-boilerplate-db-creator:
+    container_name: go-boilerplate-db-creator
+    extends:
+      file: ./ci/compose/go-boilerplate.yaml
+      service: go-boilerplate-service
+    env_file: ./ci/config/boilerplate/go-boilerplate-mysql.dev-env
+    command: ["service", "-e", "-d", "db", "create"]
+    depends_on:
+      go-boilerplate-mysql:
+        condition: service_healthy
+
+  go-boilerplate-db-migrator:
+    container_name: go-boilerplate-db-migrator
+    extends:
+      file: ./ci/compose/go-boilerplate.yaml
+      service: go-boilerplate-service
+    env_file: ./ci/config/boilerplate/go-boilerplate-mysql.dev-env
+    command: ["service", "-e", "-d", "db", "migrate"]
+    depends_on:
+      go-boilerplate-db-creator:
+        condition: service_completed_successfully
+
+  go-boilerplate-db-seeder:
+    container_name: go-boilerplate-db-seeder
+    extends:
+      file: ./ci/compose/go-boilerplate.yaml
+      service: go-boilerplate-service
+    env_file: ./ci/config/boilerplate/go-boilerplate-mysql.dev-env
+    command: ["service", "-e", "-d", "db", "seed"]
+    depends_on:
+      go-boilerplate-db-migrator:
+        condition: service_completed_successfully
+
+  go-boilerplate-service:
+    extends:
+      file: ./ci/compose/go-boilerplate.yaml
+      service: go-boilerplate-service
+    env_file: ./ci/config/boilerplate/go-boilerplate-mysql.dev-env
+    depends_on:
+      go-boilerplate-db-seeder:
+        condition: service_completed_successfully

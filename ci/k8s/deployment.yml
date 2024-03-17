@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: AppName # Change me
+  namespace: ProjectNamespace # Change me
+  labels:
+    app: AppName # Change me
+spec:
+  selector:
+    matchLabels:
+      app: AppName # Change me
+  replicas: 1
+  revisionHistoryLimit: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: AppName # Change me
+    spec:
+      containers:
+      - name: AppName # Change me
+        image: ImageLink # Change me
+        imagePullPolicy: IfNotPresent
+        envFrom: 
+          - secretRef:
+              name: AppNameENV # Change me
+        ports:
+        - containerPort: 8081
+          protocol: TCP
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8079
+          protocol: TCP
+      imagePullSecrets:
+        - name: registry-credentials # Change me if required
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+
+
+

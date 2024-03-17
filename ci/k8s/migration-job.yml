@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: AppName-Migration # Change me
+  namespace: ProjectNamespace # Change me
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 150
+  parallelism: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: AppName-Migration # Change me
+        image: ImageLink # Change me
+        command: ["service", "migrate"] # Change me
+        imagePullPolicy: IfNotPresent
+        envFrom: 
+          - secretRef:
+              name: AppNameENV # Change me
+      imagePullSecrets:
+        - name: registry-credentials # Change me if required
+      terminationGracePeriodSeconds: 10
