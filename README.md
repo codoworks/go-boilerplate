@@ -33,7 +33,7 @@ Codoworks Go Boilerplate has all your production needs taken care of in advance,
 
 #### Multi-routers
 
-It's designed with 3 separate routers (public, protected and hidden). Each router has their individual configuration that you can customise to your needs. This enables the following structure:
+It's designed with 3 separate routers (public, protected and hidden). Each router has its individual configuration that you can customise to your needs. This enables the following structure:
 
 ```
 https://your-domain.com/api/<your public api>            # Publicly consumable API
