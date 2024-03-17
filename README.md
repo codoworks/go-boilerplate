@@ -7,9 +7,9 @@
 [![Codacy Security Scan](https://github.com/codoworks/go-boilerplate/actions/workflows/codacy.yml/badge.svg)](https://github.com/codoworks/go-boilerplate/actions/workflows/codacy.yml)
 
 
-This is a backend service skeleton or a boilerplate to speed up development process. Over time this package has become opinionated and behaves more like a framework with a set of pre-defined features.
+This is a backend service skeleton or boilerplate to speed up development process. Over time, this package has become opinionated and behaves more like a framework with a set of predefined features.
 This package was developed using `GoLang v1.21`. 
-Thank you for using codoworks service skeleton. 
+Thank you for using Codoworks Go Boilerplate. 
 
 <img align="right" src="docs/Go-Boilerplate_Logo_Dark_BG_Small_V1.0.png">
 
@@ -24,12 +24,16 @@ Thank you for using codoworks service skeleton.
 
 <details>
 <summary><b>Mindset</b></summary>
+	
+This service is designed for developers to build backend API as quickly as possible - almost as simply as copy and pasting components. The goal is to be able to clone this repository, rename it and get started with your first RESTful CRUD API within minutes.
 
-There are many http libraries on github that enables quick and easy api development but as your project scales it can quickly become messy without proper structure and workflows, let alone preparing for production and managing security etc. 
+There are many HTTP libraries on GitHub that enable quick and easy API development, but as your project scales it can quickly become messy without proper structure and workflows,and even more when preparing for production or managing security. 
 
-This service was designed to enable backend api development as quickly as possible, almost by simply copy pasting components. The goal is to be able to clone this repository, rename it and get started with your first RESTful CRUD API within minutes.
+Codoworks Go Boilerplate has all your production needs taken care of in advance, so you can focus your efforts on creating business and application logics.
 
-It's designed with 3 separate routers (public, protected and hidden), each router has their individual configuration that you can customize to your needs. This can enable the following structure
+#### Multi-routers
+
+It's designed with 3 separate routers (public, protected and hidden). Each router has their individual configuration that you can customise to your needs. This enables the following structure:
 
 ```
 https://your-domain.com/api/<your public api>            # Publicly consumable API
@@ -37,37 +41,49 @@ https://api.your-domain.com/<your protected api>         # Your application's AP
 https://api.your-domain.com/.admin/<your hidden api>     # Administrative API, not supposed to be available via public internet
 ```
 
-With that structure, the default router is assumed to be the protected one as most use cases tend to contain a user interface element with a login capability. 
+With this structure, the default router is assumed to be the protected one as most use cases tend to contain a user interface element with a login functionality. 
 
-Speaking of login, this service is designed to be used alongside self-hosted [ory kratos](https://www.ory.sh/open-source/) for authentication, you can choose not to use kratos ofcourse - it's designed to be modular, all you have to do is change the authentication.go middleware to your desired service. 
+#### Modular
 
-Similarly for authorization, [ory keto](https://www.ory.sh/open-source/) is very well designed to manage a large volume of transactions and it's the default client for this service. 
+Speaking of login, this service is designed to be used alongside self-hosted [ory kratos](https://www.ory.sh/open-source/) for authentication. Since this boilerplate is designed to be modular, you may choose another service provider instead of Kratos. All you have to do is change the authentication.go middleware to your desired service. 
 
-Often you may need to run something in the background like a cleanup job or perhaps an email water, this service is designed with that in mind too. An example watcher is provided that you can run alongside the http server or even indenpendantly. Using the same structure you can create your own too.
+Similarly for authorisation, [ory keto](https://www.ory.sh/open-source/) is the default client for this service as it is well-designed to manage large volumes of transactions.
 
-A well designed service should enable the user to perform certain administrative tasks out of the box, like providing a specific user with a given email address system-admin permissions or so. It's likely that a user-interface for such feature is no-where near on your product roadmap, hence an API was never developed too and so you can't use postman to do it. For this type of scenarios this service is shipped with tasks that you can easily extend and execute via command line.
+#### Maintenance
 
-Needless to say, almost every service requires a database, this one no different too and so it's designed with mysql, postgres and sqlite integration. By default it uses sqlite to allow a quick start, switching platforms is a matter of changing an environment variable.
+Often, you may need to run something in the background like a cleanup job or perhaps an email water. This service is designed with that in mind too. It even provides a watcher that you can run with an http server or indenpendently. Using the same structure you can create your own too.
 
-Database migrations, logging, routing, hot-reloading, CORS, timeout and even graceful shutdown, all the features you need to get to production as soon as possible are built into this boilerplate. We hope you enjoy using it. 
+#### Administration
+
+A well-designed service should also enable the user to perform certain administrative tasks out of the box, like providing a specific user with a given email address, system-admin permissions and so on. It's likely that a user interface for such feature is not a priority on your product roadmap, hence an API was never developed so you can't use Postman to do it. For this type of scenario, this boilerplate is shipped with tasks that you can easily extend and execute via command line.
+
+#### Database
+
+Needless to say, almost every service requires a database, this one is no different too. Codowworks Go Boilerplate is designed with MySQL, Postgres and SQLite integration. By default, it uses SQLite to allow a quick start, switching platforms is just a matter of changing an environment variable.
+
+#### Others
+
+Within this boilerplate are also database migrations, logging, routing, hot-reloading, CORS, timeout and even graceful shutdown, which are some of the features you need to get to production as soon as possible. 
+
+We hope you enjoy using Codoworks Go Boilerplate. If you do, please support us by giving this repository a star.
 </details>
 
 <details>
 
-<summary><b>Feature list</b></summary>
+<summary><b>Full Feature List</b></summary>
 
-- Cli commands (via Cobra)
+- CLI commands (via Cobra)
 - HTTP server (via Echo)
-  - public router
-  - protected router
-  - hidden router
+  - Public router
+  - Protected router
+  - Hidden router
 - Daemon processes or workers
 - Tasks for custom one-off operations
 - Middlewares
-  - HTTP headers checks and setters
+  - HTTP header checks and setters
   - Auto error handling and response
-  - Authentication via ory kratos
-  - Authorization via ory keto
+  - Authentication via Ory Kratos
+  - Authorisation via Ory Keto
   - CORS handling
   - Auto trim trailing slashes
   - Request timeout
@@ -81,15 +97,15 @@ Database migrations, logging, routing, hot-reloading, CORS, timeout and even gra
 - JSON forms and model mapping
 - Data validation
 - Clients
-  - Forward Http client to forward authorization headers
+  - Forward HTTP client to forward authorization headers
   - Ory Kratos Client - authentication
   - Ory Keto Client - authorization
 - Custom logger
 - Graceful shutdown
-- Feature Toggle: [ory_kratos, ory_keto, db, redis]
+- Feature toggle: [ory_kratos, ory_keto, db, redis]
 </details>
 
-# Getting started
+# Getting Started
 
 1. Clone this repository `git clone git@github.com:codoworks/go-boilerplate.git`
 2. Run `cd go-boilerplate`
@@ -114,7 +130,7 @@ For more details on running and using the service, scroll down to "[Operations](
 
 To learn about developing and extending this service, scroll down to "[Make it your own](#make-it-your-own)" section. 
 
-#### Simplified architecture diagram
+#### Simplified Architecture Diagram
 
 <img align="middle" src="docs/Go-Boilerplate_arch.png">
 
@@ -123,7 +139,7 @@ To learn about developing and extending this service, scroll down to "[Make it y
 
 The service is shipped with a few docker compose files to get you started, all of which are automated with a Makefile to make things consistent.
 
-#### Quick start
+#### Quick Start
 
 From the boilerplate root folder, run the quick-start target from the Makefile
 
@@ -131,17 +147,17 @@ From the boilerplate root folder, run the quick-start target from the Makefile
 make quick-start
 ```
 
-#### Quick start with mysql
+#### Quick Start with MySQL
 
-To run an example using mysql database, from the boilerplate root folder, run the quick-start-mysql target from the Makefile
+To run an example using MySQL database, from the boilerplate root folder, run the quick-start-mysql target from the Makefile
 
 ```bash
 make quick-start-mysql
 ```
 
-#### Quick start with postgres
+#### Quick Start with Postgres
 
-To run an example using postgres database, from the boilerplate root folder, run the quick-start-mysql target from the Makefile
+To run an example using Postgres database, from the boilerplate root folder, run the quick-start-mysql target from the Makefile
 
 ```bash
 make quick-start-postgres
@@ -152,9 +168,9 @@ make quick-start-postgres
 <details>
 <summary><b>Usage</b></summary>
 
-### Env vars
+### Env Vars
 
-Environment variables are evaluated based on the following order to allow flexibility when running in production: 
+Environment variables are evaluated in the following order to allow flexibility when running in production: 
 1. `.env` file
 2. environment variables 
 3. cmd flags (if available)
@@ -208,7 +224,7 @@ To ease your development process, we've included a command to print the environm
 | `DISABLE_FEATURES` | optional | list of features to disable in runtime, make sure its comma separated without spaces |
 </details>
 
-### Execution modes
+### Execution Modes
 
 The service can run in one of two modes, either production and development modes. 
 
@@ -231,7 +247,7 @@ You can change the behaviour of the service using flags, see the list of flags b
 | `--log` | `-l` | string | (optional) log level |
 </details>
 
-### Live reload / hot-swap <a name="live-reload"></a>
+### Live Reload / Hot-swap <a name="live-reload"></a>
 
 It's convenient to automatically restart the service every time you save your changes, for that you can use [air](https://github.com/cosmtrek/air), which is a separate go package you can install using the following command
 
@@ -860,3 +876,4 @@ We're looking for contributors, all ideas are welcome. Feel free start a new dis
 ### Contacts
 
 - [Dexter Codo](mailto:dexter@dexterexplains.com)
+- [Join our Discord channel](https://discord.gg/Q27kgPVub7)
