@@ -684,10 +684,57 @@ To execute the above task, simply run `go run . task exec myTask` and you should
 <details>
 <summary><b>Error Handling</b></summary>
 
+
 </details>
 
 <details>
 <summary><b>Adding Env Vars & Features</b></summary>
+
+All environment variables reside in `pkg/config/features`, they're categorized under their respective features like `database.go` or `service.go`. Each env var must have a `mapstructure:` decoration that states how it's spelled in caps when parsing an ENV. You can add your own, it's as simple as adding a new line in any of these files or even create your own. 
+
+Below is a sample of `pkg/config/features/service.go`
+```Go
+type ServiceConfig struct {
+	Host                   string `mapstructure:"HOST"`
+	ProtectedApiPort       string `mapstructure:"PROTECTED_API_PORT"`
+	PublicApiPort          string `mapstructure:"PUBLIC_API_PORT"`
+	HiddenApiPort          string `mapstructure:"HIDDEN_API_PORT"`
+	LogLevel               string `mapstructure:"LOG_LEVEL"`
+	RequestTimeoutDuration string `mapstructure:"REQUEST_TIMEOUT_DURATION"`
+	WatcherSleepInterval   string `mapstructure:"WATCHER_SLEEP_INTERVAL"`
+}
+
+var service = &Feature{
+	Name:       constants.FEATURE_SERVICE,
+	Config:     &ServiceConfig{},
+	enabled:    true,
+	configured: false,
+	ready:      false,
+	requirements: []string{
+		"Host",
+		"ProtectedApiPort",
+		"PublicApiPort",
+		"HiddenApiPort",
+		"LogLevel",
+		"RequestTimeoutDuration",
+		"WatcherSleepInterval",
+	},
+}
+
+func init() {
+	Features.Add(service)
+}
+```
+
+From the above example, you can find a type `ServiceConfig` that states what env vars are to be expected. All of these are automatically read from the environment. Env vars must belong to a feature which can be toggled on or off, a feature can also define which ones are required for it to be able to start. 
+
+If you wish to disable that feature, you can mention it in the list of `DISABLE_FEATURES` var in run-time. 
+
+Reading the env vars is the job of `pkg/config/envVars.go`, Each config struct must be registered in `envVars.go`. The config struct is then automatically injected to it's respective feature once it's been initialized.
+
+It's possible to set a default value for each variable, this can be done in `pkg/config/envVars.go` under `setDefaults()`.
+
+By the time the CMD calls the Proc, all env vars would have already been read and injected into their features, making them available for the rest of the package. 
 
 </details>
 
