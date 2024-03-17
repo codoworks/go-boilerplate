@@ -114,7 +114,7 @@ We hope you enjoy using Codoworks Go Boilerplate. If you do, please support us b
 3. Run `go get`
 4. Run `go run . db migrate`
 5. Run `go run . db seed`
-6. Run `go run . start` to start the server, you should see the following
+6. Run `go run . start` to start the server, you should see the following:
 ```
 ⇨ http server started on [::]:8081
 ⇨ http server started on [::]:8080
