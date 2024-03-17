@@ -645,6 +645,35 @@ Finally, each form should have a `MapToModel()` function that returns a form so 
 <details>
 <summary><b>Routers</b></summary>
 
+> Note: this go boilerplate uses [Echo](https://echo.labstack.com). If you're ever in doubt you can refer to Echo's documentation for more details on what's possible with routers.
+
+This boilerplate is shipped with 3 routers, public, privdate and hidden routers. all of them follow the same structure and procedure with slight differences in what is registered within them. 
+
+Why have 3 routers? well, some projects may have public and protected routes and such use-case is straightforward, the latter implements an authentication middleware while the first doesn't. Attempting to achieve such behaviour within a single router can be tricky, so isolated routers running on different ports are used instead. The third "hidden" router is provided to enable a pattern commonly used to allow one microservice to communicate with another without exposing those routes to the public internet. With that said, wiring those 3 routers can easily be achieved by a different service like kubernetes or nginx. 
+
+All routers should go through the following process: 
+1. Initialization 
+2. Checking for DevMode and enabling related middlewares 
+3. Register common middleware 
+4. Register health routes
+5. Register security middlware 
+6. Register user defined routes
+7. Register error handler 
+
+Have a look at `pkg/api/routers/protectedApi.go` to familiarize yourself with router initialization process, If you've already created your handlers from the previous section, all you need is to add your new route to this file like so:
+```Go
+func registerProtectedAPIRoutes() {
+	cats := protectedApiRouter.Echo.Group("/cats") // Your new REST resource
+	cats.GET("", catsHandlers.Index)               // GET "/cats/" route and handler 
+	cats.GET("/:id", catsHandlers.Get)             // GET "/cats/:id" route and handler
+	cats.POST("", catsHandlers.Post)               // POST "/cats/" route and handler
+	cats.PUT("/:id", catsHandlers.Put)             // PUT "/cats/:id" route and handler
+	cats.DELETE("/:id", catsHandlers.Delete)       // DELETE "/cats/:id" route and handler
+
+	// add more routes here ...
+}
+```
+
 </details>
 
 <details>
@@ -684,6 +713,15 @@ To execute the above task, simply run `go run . task exec myTask` and you should
 <details>
 <summary><b>Error Handling</b></summary>
 
+This boilerplate aims to automate error handling and error responses. 
+
+First let's talk about logging error. When using proper logging mechanics and log levels, you can then leave all your logs in the code and have them printed depending on their severity. The package is shipped with the function `helpers.Error()`, a wrapper that's intended to log an error and return it. Those logs will only be visible if the `LOG_LEVEL` env var permits. Avoid using `fmt.Println()` at all time, instead, you can use `logger.Debug()` or if you're within a handler you can use the `c.Logger().Debug()` helper.
+
+Given that each handler can return an error, the router is configured to handler that error using `pkg/api/handlers/errors/automatedHttpError.go` which will unwrap the error, match it with a list of registered errors under `pkg/api/handlers/errors/errors.go`. Finally, it will construct an error response and respond to that request. 
+
+Validation errors are no different, except they're unwrapped further and sent to the user as individual form inputs so they can be displayed. 
+
+You're encouraged to register and maintain as many errors as you can in the same way, it's useful to have a specific error code mapped to each error, that way we can determine exactly what went wrong in each user-flow. 
 
 </details>
 
