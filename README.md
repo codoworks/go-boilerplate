@@ -640,6 +640,34 @@ Finally, each form should have a `MapToModel()` function that returns a form so 
 <details>
 <summary><b>Handlers</b></summary>
 
+> Note: this go boilerplate uses [Echo](https://echo.labstack.com). If you're ever in doubt you can refer to Echo's documentation for more details on what's possible with routers.
+
+A handler is any function with the `func (c echo.Context) error` signature. All handlers should be stored under `pkg/api/handlers` and categorized in directories following their entity name in plural form. For readability and maintainability, we encourage maintaining a single handler in a single file as we all know go files can quickly grow.
+
+Handlers should also be nested, that means a cats handlers directory can contain a sub directory such as `cats/tags` for example, this helps avoid long file names and ease readability. 
+
+How handlers look like will largerly depend on your project's business logic and requirements, for reference, here's a quick sample to give an idea on how you should construct your handler.
+
+```Go
+func Get(c echo.Context) error {
+
+	id := c.Param("id")
+
+	if id == "" {
+		return helpers.Error(c, constants.ERROR_ID_NOT_FOUND, nil)
+	}
+
+	m, err := models.CatModel().Find(id)
+
+	if err != nil {
+		return helpers.Error(c, err, nil)
+	}
+
+	return c.JSON(http.StatusOK, handlers.Success(m.MapToForm()))
+
+}
+```
+
 </details>
 
 <details>
