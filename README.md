@@ -130,7 +130,7 @@ curl -H "Accept: application/json" http://127.0.0.1:8081/health/ready
 
 For more details on running and using the service, scroll down to "[Operations](#operations)" section. 
 
-To learn about developing and extending this service, scroll down to "[Make it your own](#make-it-your-own)" section. 
+To learn about developing and extending this service, scroll down to "[make it your own](#make-it-your-own)" section. 
 
 #### Simplified Architecture Diagram
 
@@ -301,7 +301,7 @@ From a containerisation perspective, I'd encourage you to place this binary in a
 
 <a name="make-it-your-own"></a>
 <details>
-<summary><b>Extending the service (Make it your own)</b></summary>
+<summary><b>Extending the service (make it your own)</b></summary>
 
 This section is all about extending the service to create your own application and APIs. 
 
