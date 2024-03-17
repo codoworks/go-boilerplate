@@ -139,11 +139,11 @@ To learn about developing and extending this service, scroll down to "[Make it y
 <details>
 <summary><b>Docker</b></summary>
 
-The service is shipped with a few docker compose files to get you started, all of which are automated with a Makefile to make things consistent.
+The service is shipped with a few Docker compose files to get you started, all of which are automated with a Makefile to make things consistent.
 
 #### Quick Start
 
-From the boilerplate root folder, run the quick-start target from the Makefile
+From the boilerplate root folder, run the quick-start target from the Makefile.
 
 ```bash
 make quick-start
@@ -667,7 +667,27 @@ func Get(c echo.Context) error {
 ```
 And perhaps another example to demonstrate how to receive user input and store a model.
 ```Go
+func Post(c echo.Context) error {
 
+	f := &models.CatForm{}
+
+	if err := c.Bind(f); err != nil {
+		return helpers.Error(c, constants.ERROR_BINDING_BODY, err)
+	}
+
+	if err := helpers.Validate(f); err != nil {
+		return c.JSON(http.StatusBadRequest, handlers.ValidationErrors(err))
+	}
+
+	m := f.MapToModel()
+
+	if err := m.Save(); err != nil {
+		return helpers.Error(c, err, nil)
+	}
+
+	return c.JSON(http.StatusOK, handlers.Success(m.MapToForm()))
+
+}
 ```
 
 </details>
