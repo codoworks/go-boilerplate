@@ -151,7 +151,7 @@ make quick-start
 
 #### Quick Start with MySQL
 
-To run an example using MySQL database, from the boilerplate root folder, run the quick-start-mysql target from the Makefile
+To run an example using MySQL database, from the boilerplate root folder, run the quick-start-mysql target from the Makefile.
 
 ```bash
 make quick-start-mysql
@@ -159,7 +159,7 @@ make quick-start-mysql
 
 #### Quick Start with Postgres
 
-To run an example using Postgres database, from the boilerplate root folder, run the quick-start-mysql target from the Makefile
+To run an example using Postgres database, from the boilerplate root folder, run the quick-start-mysql target from the Makefile.
 
 ```bash
 make quick-start-postgres
@@ -177,11 +177,9 @@ Environment variables are evaluated in the following order to allow flexibility 
 2. environment variables 
 3. cmd flags (if available)
 
-Example: if you have `HOST=127.0.0.1` in the `.env` file and `$ EXPORT HOST=0.0.0.0` in a terminal, the service will first read the first value in the env file, which is then overriden by the value in the terminal environment. 
+During development, it is recommended to use a `.env` file. You can find a reference under /.env.sample` to get started. 
 
-During development, it is recommended to use a `.env` file. You can find a reference under `./.env.sample` to get started. 
-
-To ease your development process, we've included a command to print the environment to better understand your app behaviour. Simply run `go run . info env`. Together with `go run . info features` you should be able to get to the bottom of something. 
+To ease your development process, we've included a command to print the environment to better understand your app behaviour. Simply run `go run . info env`. Together with `go run . info features`, you should be able to get to the bottom of an issue. 
 
 
 <details>
@@ -190,36 +188,36 @@ To ease your development process, we've included a command to print the environm
 | Var Name | Required | Description |
 | -------- | -------- | ----------- |
 | `HOST` | optional | service host address. default: 0.0.0.0 |
-| `PROTECTED_API_PORT` | optional | service port. default: 8080 |
-| `PUBLIC_API_PORT` | optional | service port. default: 8081 |
-| `HIDDEN_API_PORT` | optional | service port. default: 8079 |
-| `DB_HOST` | optional | database host |
-| `DB_PORT` | optional | database port |
-| `DB_USER` | optional | database username |
-| `DB_PASSWORD` | optional | database password |
-| `DB_NAME` | optional | database name |
-| `DB_TIMEZONE` | optional | database timezone. required with postgres platform |
-| `DB_PLATFORM` | optional | enum: ["postgres", "mysql", "sqlite"]. default: "sqlite" |
-| `KRATOS_PUBLIC_SERVICE` | optional | ory kratos public api url |
-| `KRATOS_ADMIN_SERVICE` | optional | ory kratos admin api url |
-| `KETO_READ_SERVICE` | optional | ory keto read api url |
-| `KETO_WRITE_SERVICE` | optional | ory keto write api url |
-| `REDIS_HOST` | optional | redis host url. required if redis is enabled |
-| `REDIS_PORT` | optional | redis port. required if redis is enabled |
-| `REDIS_PASSWORD` | optional | redis password. required if redis is enabled |
-| `LOG_LEVEL` | optional | enum: ["INFO", "WARN", "DEBUG", "ERROR"]. default: "INFO" |
-| `CORS_ALLOW_ORIGINS` | optional | allowed origins. default: "*" |
-| `REQUEST_TIMEOUT_DURATION` | optional | number in seconds. default: "60" |
-| `DISABLE_FEATURES` | optional | list of features to disable in runtime, make sure its comma separated without spaces |
+| `PROTECTED_API_PORT` | optional | Service port. Default: 8080 |
+| `PUBLIC_API_PORT` | optional | Service port. Default: 8081 |
+| `HIDDEN_API_PORT` | optional | Service port. Default: 8079 |
+| `DB_HOST` | optional | Database host |
+| `DB_PORT` | optional | Database port |
+| `DB_USER` | optional | Database username |
+| `DB_PASSWORD` | optional | Database password |
+| `DB_NAME` | optional | Database name |
+| `DB_TIMEZONE` | optional | Database timezone. Required with Postgres platform |
+| `DB_PLATFORM` | optional | Enum: ["postgres", "mysql", "sqlite"]. default: "sqlite" |
+| `KRATOS_PUBLIC_SERVICE` | optional | Ory Kratos public API URL |
+| `KRATOS_ADMIN_SERVICE` | optional | Ory Kratos admin API URL |
+| `KETO_READ_SERVICE` | optional | Ory Keto read API URL |
+| `KETO_WRITE_SERVICE` | optional | Ory Keto write API URL |
+| `REDIS_HOST` | optional | Redis host URL. Required if Redis is enabled |
+| `REDIS_PORT` | optional | Redis port. Required if Redis is enabled |
+| `REDIS_PASSWORD` | optional | Redis password. Required if Redis is enabled |
+| `LOG_LEVEL` | optional | Enum: ["info", "warn", "debug", "error"]. default: "info" |
+| `CORS_ALLOW_ORIGINS` | optional | Allowed origins. Default: "*" |
+| `REQUEST_TIMEOUT_DURATION` | optional | Number in seconds. Default: "60" |
+| `DISABLE_FEATURES` | optional | List of features to disable in runtime, make sure its comma separated without spaces |
 </details>
 
 ### Execution Modes
 
-The service can run in one of two modes, production mode or development mode. 
+The service can run in one of two modes: production mode or development mode. 
 
-Development mode is activated using the `-d` or `--dev` flag. Running in this mode will lock the service host to `127.0.0.1` to avoid firewall issues when developing using macOS. You can override this setting using `-H 0.0.0.0` if needed. 
+Development mode is activated using the `-d` or `--dev` flag. Running in this mode will lock the service host to `127.0.0.1` to avoid firewall issues when developing using MacOS. You can override this setting using `-H 0.0.0.0` if needed. 
 
-Development mode will also activate useful middlewares that help print incoming request body and input data validation errors for debugging, as well as set the logger level to debug to ease development. Everything else is identical to running in production mode.
+Development mode will also activate useful middlewares that help print incoming request body, input data validation errors for debugging, and set the logger level to debug for ease of development. Everything else is identical to running in production mode.
 
 You can change the behaviour of the service using flags, see the list of flags below for more.
 
@@ -228,29 +226,29 @@ You can change the behaviour of the service using flags, see the list of flags b
 
 | Flag Name | Shorthand | type | Description |
 | --------- | --------- | ---- | ----------- |
-| `--dev` | `-d` | bool | run in development mode |
-| `--env` | `-e` | bool | print environment variables |
-| `--host` | `-H` | string | (optional) service host. overrides env vars |
-| `--port` | `-P` | string | (optional) service port. overrides env vars |
-| `--watcher` | (N/A) | bool | (optional) start watcher in the backgoround |
-| `--log` | `-l` | string | (optional) log level |
+| `--dev` | `-d` | bool | Run in development mode |
+| `--env` | `-e` | bool | Print environment variables |
+| `--host` | `-H` | string | (optional) Service host. Overrides env vars |
+| `--port` | `-P` | string | (optional) Service port. Overrides env vars |
+| `--watcher` | (N/A) | bool | (optional) Start watcher in the backgoround |
+| `--log` | `-l` | string | (optional) Log level |
 </details>
 
 ### Live Reload / Hot-swap <a name="live-reload"></a>
 
-It's convenient to automatically restart the service every time you save your changes, for that you can use [air](https://github.com/cosmtrek/air), which is a separate go package you can install using the following command
+It is convenient to automatically restart the service every time you save your changes. For that, you can use [air](https://github.com/cosmtrek/air), which is a separate Go package you can install using the following command:
 
 ```bash
 go install github.com/cosmtrek/air@latest
 ```
 
-once `air` is installed, you simply need to run `air` to start the service. configurations for that can be found under `./.air.toml`
+Once `air` is installed, you simply need to run `air` to start the service. Configurations for this can be found under `./.air.toml`.
 
-Live reloading will also work in docker, the `Dockerfile.dev` is configured to install and run the service via `air`
+Live reloading will also work in Docker. The `Dockerfile.dev` is configured to install and run the service via `air`.
 
 ### Operations <a name="operations"></a>
 
-This service is shipped with a cmd client, which means you can run `./go-boilerplate` to view all available commands and help menu.
+This service is shipped with a cmd client, which means you can use `./go-boilerplate` to view all available commands and help menu.
 
 > - You need to build the service first before you can use `go-boilerplate` 
 > - both `./go-boilerplate` and `go run .` can be followed by any flags, commands and sub-commands 
@@ -263,23 +261,23 @@ It also requires `Content-Type: application/json` with `POST`, `PUT` and `DELETE
 
 ### Native Development 
 
-If you're writing a small project with a few endpoints then running Go in your terminal shouldn't be much of a problem. You can use the [live-reload](#live-reload) while you're editing your code in your favourite editor. 
+If you're writing a small project with a few endpoints then running Go in your terminal shouldn't be much of a problem. You can use [live-reload](#live-reload) while you're editing your code in your favourite editor. 
 
-To run the service without building, run `go run .` this will achieve the same result as `./go-boilerplate` after building the binary.
+To run the service without building, run `go run .` which will achieve the same result as running `./go-boilerplate` after building the binary.
 
-> The name `go-boilerplate` will change if you have changed the package name [as mentioned here](#change-pkg-name)
+> The name `go-boilerplate` will change if you change the package name [as mentioned here](#change-pkg-name).
 
 ### In-Docker Development
 
-However when you're running a large project with multiple micro-services (multiple instances of this boilerplate), it can be handy to live edit your code while in docker, for that we've designed the `Dockerfile.dev` to get your started.
+However, when you are running a large project with multiple micro-services (multiple instances of this boilerplate), it can be handy to live edit your code while in Docker. For this, we have designed the `Dockerfile.dev` to get you started.
 
-Simply run `make quick-start` to get up and running, and to stop it, use `Ctrl+C`. Make sure you set your env correctly. 
+Simply run `make quick-start` to get up and running. To stop it, use `Ctrl+C`.
 
 ### Build
 
-To build, run `go build .` this will generate a binary with the default name of the package, in this case it will be `./go-boilerplate` unless you've changed it (which is recommend).
+To build, run `go build .` which will generate a binary with the default name of the package. In this case, it will be `./go-boilerplate` unless you change it (which is recommended).
 
-If you've executed the above, you may notice the version by running `./go-boilerplate version` is set to `2.x.x-default`, that's because this is the second interation of this boilerplate. It's recommended that you burn the version into the binary in build time to create versioned builds. To do that, use the following command to build instead
+If you have executed the above, you may notice that the version `./go-boilerplate version` is set to `2.x.x-default` during run time. That's because it is the second iteration of this boilerplate. It is recommended that you burn the version into the binary in build time to create versioned builds. To do that, use the following command to build:
 
 ```bash
 go build -ldflags="-w -s -extldflags '-static' -X main.VERSION=<YOUR.VERION.HERE>"
@@ -290,15 +288,15 @@ go build -ldflags="-w -s -extldflags '-static' -X main.VERSION=1.0.0"
 # v1.0.0
 ```
 
-Once built, a single binary file is generated, it's an executable that you can rename and place in any folder as long as your profile PATH can find it. a good place to place it on your local machine would be `/usr/bin` which is where most binaries are. 
+Once built, a single binary file is generated. It is an executable file that you can rename and place in any folder as long as your profile PATH can find it. A good place to place it on your local machine would be in `/usr/bin` which is where most binaries are. 
 
 ### Deployment
 
-If you wish to deploy this service locally, all you need to do is build from the above secion and then ship the outputted binary into a location where your terminal's PATH can find it, you should be able to use it by just calling it's name in your terminal. 
+If you wish to deploy this service locally, all you need to do is build as per the section above then ship the outputted binary into a location where your terminal's PATH can find it. You should be able to use it just by calling its name in your terminal. 
 
-The "Usage" section should get you familiar with all configurations required to configure, operate and maintain this service, deploying it should be a piece of cake onto any dockerized environment.
+The "Usage" section should get you familiarised with all the parameters that are configurable. Deploying it should not be a problem in any dockerised environment.
 
-From a container point of view, i'd encourage you to place this binary in an empty container, i.e. `FROM scratch` in Dockerfile. this helps keep the container size minimal. When tested on an M1 Mac Machine, we got an 18MB container. 
+From a containerisation perspective, I'd encourage you to place this binary in an empty container i.e. `FROM scratch` in your Dockerfile. This helps keep the container size to a minimum. When tested on an M1 Mac Machine, we got an 18MB container. 
 </details>
 
 <a name="make-it-your-own"></a>
@@ -308,15 +306,15 @@ From a container point of view, i'd encourage you to place this binary in an emp
 This section is all about extending the service to create your own application and APIs. 
 
 <a name="change-pkg-name"></a>
-> The first thing you'd want to do is to change the package name, find `codoworks/go-boilerplate` in all files and replace it with your desired package name. You can choose to use the general `(org-name)/(project-name)` naming pattern for consistency.
+> The first thing you should do is to change the package name, find `github.com/codoworks/go-boilerplate` in all the files and replace it with your own package name. You can choose to use the general `github.com/(org-name)/(project-name)` naming pattern for consistency.
 
 
 <details>
 <summary><b>Migrations</b></summary>
 
-Migrations help create your database and track how it eveolves overtime, here we use [GoMigrate](https://github.com/go-gormigrate/gormigrate) to achieve this along with an added implementation to enable easy extendability and better logs throughout your development process. 
+Migrations help create your database and track how it evolves overtime. Here, we use [GoMigrate](https://github.com/go-gormigrate/gormigrate) to achieve this. Some added complexity is added to enable easy extendability and generate better logs throughout your development process. 
 
-Migrations go under `pkg/db/migrations/<myNewMigration>.go`. The way it's implemented uses `Go`'s `init()` function which means they're added to the list in the alphabetical order they appear in, they get migrated in that order (top to bottom), and rollbacked in the reverse order (bottom up). For this it's best to maintain the naming convention of `YYYYMMDD[00-99]_migration_description`.
+Migrations go under `pkg/db/migrations/<myNewMigration>.go`. Its implemention uses `Go`'s `init()` function, which means they're added to the list in alphabetical order. They migrate in that order (top to bottom) and rollback in the reverse order (bottom up). For this, it is best to maintain the naming convention of `YYYYMMDD[00-99]_migration_description`.
 
 
 Here's a sample migration to get you started:
@@ -348,12 +346,12 @@ func init() {
 }
 ```
 
-The variable `m` holds the migration details and is added to the list of migrations at the end. `m.ID` is the identifier used by `gomigrate` to keep track of the migrations that already ran so make sure to change that for every migration.
+The variable `m` holds the migration details and is added to the list of migrations at the end. `m.ID` is the identifier used by `gomigrate` to keep track of the migrations that already ran. So, make sure to change that for every migration.
 
 
-Every migration has 2 methods to be implemented, a `Migrate()` and `Rollback()` methods as described above. Make sure you use the `logSuccess`, `logFail` and `AutoMigrateAndLog()` functions to print the migrations that ran. This would come in very handy with remote deployments. 
+Every migration has 2 methods to be implemented, the `Migrate()` and `Rollback()` method as described above. Make sure you use the `logSuccess`, `logFail` and `AutoMigrateAndLog()` functions to print the migrations that ran. This will come in very handy for remote deployments. 
 
-It's recommended to declare your models within each migration (separately from models) to keep track of how the database schema is changing throughout the project. You can add/delete columns, rename columns and execute raw SQL in migrations.
+It's recommended to declare your models within each migration (separately from the models package) to keep track of the database schema change through time. You can add or delete columns, rename columns, and execute raw SQL in migrations.
 
 > A general good practice would be to flatten your migrations once your application achieves version 1, leaving only neat table creation in each migration.
 </details>
@@ -361,13 +359,13 @@ It's recommended to declare your models within each migration (separately from m
 <details>
 <summary><b>Seeds</b></summary>
 
-Seeds are very similar to migrations, the key difference between the two is that seeds do not implement the `Rollback` function. That's because seeds are intended to create content inside the database, they don't modify the database structure in any way so there's no need for rollbacks. 
+Seeds are very similar to migrations, but seeds do not implement the `Rollback` function.
 
-Just like migrations, seeds are applied once, and tracked using their unique identifier `ID` by [GoMigrate](https://github.com/go-gormigrate/gormigrate).
+Just like migrations, seeds are applied once and tracked using their unique identifier `ID` by [GoMigrate](https://github.com/go-gormigrate/gormigrate).
 
-Seeds are part of the whole package which allows you to access models, clients and other components directly to configure the application or perhaps provide dummy data to enable streamlined development. 
+Seeds are part of the whole package which allows you to access models, clients and other components directly to configure the application, and perhaps provide dummy data to help with development. 
 
-Here's a seed skeleton to get you started, all you need to do is copy the following structure into a new file under seeds and change the `s.ID` property.
+Here's a seed skeleton to get you started. Copy the following structure into a new file under seeds and change the `s.ID` property.
 
 ```Go
 func init() {
@@ -428,13 +426,13 @@ func init() {
 <details>
 <summary><b>Models</b></summary>
 
-Models can sometimes be a complex aspect of any application, in this section you'll find a breakdown on how you can compose your models or database entities. 
+Models can sometimes be a complex aspect of any application. In this section, you'll find a rundown on how you can compose your models or database entities. 
 
 #### Model Structure 
 
-The first thing you'd want to do is to create a struct that matches your database schema, almost all models should embed the `ModelBase` struct that provides the `ID`, `CreatedAt` and `UpdatedAt` properties, excepts can be things like a many to many table where you only need to store 2 identifiers. To learn more about model declarations you can refer to [Gorm](https://gorm.io) official comprehensive documentation. 
+The first thing is to create a struct that matches your database schema. Almost all models should embed the `ModelBase` struct that provides the `ID`, `CreatedAt` and `UpdatedAt` properties. Exceptions may include a many-to-many table where you only need to store 2 identifiers. To learn more about model declarations, you can refer to [Gorm](https://gorm.io)'s official comprehensive documentation. 
 
-Here's a Cat model that should correspond to a Cats table in a database, and contains 5 properties, `ID`, `CreatedAt`, `UpdatedAt`, `Name` and `Type`
+Here's a Cat model that should correspond to a Cats table that contains 5 properties i.e. `ID`, `CreatedAt`, `UpdatedAt`, `Name` and `Type` in a database.
 
 ```Go
 type Cat struct {
@@ -443,15 +441,15 @@ type Cat struct {
 	Type string `gorm:"size:255"`
 }
 ```
-Notice how every property contains a `gorm` decoration to specify things like field size, uniqueness or foreign keys etc. For more details please refer to [Gorm](https://gorm.io)'s documentation.
+Notice how every property contains a `gorm` decoration to specify things like field size, uniqueness or foreign keys etc. For more details, please refer to [Gorm](https://gorm.io)'s documentation.
 
-Your model may sometimes contain properties that do not correspond to a database column, to do that you simply need to use the `gorm:"-"` decoration. 
+Your model may sometimes contain properties that do not correspond to a database column. To do that, you simply need to use the `gorm:"-"` decoration. 
 
-> Note: given this package is designed to work with multiple database servers like mysql or postgres. Some data types may be available in some servers and not others, it's worth testing your application with differnet servers from time to time as you go to accomodate the ease of switching database server, unless your use-case relies on that specific data type in which case you're making an informed decision to lock your application to that server.
+> Note: Given that this package is designed to work with multiple database servers like MySQL or Postgres, some data types may be available in some servers and not others. It's worth testing your application with differnet servers from time to time to accomodate easy switching of database server, unless your use case relies on a specific data type - in which case you're making a calculated decision to lock your application to that server.
 
 #### Common Basic Functionality
 
-Now that you have a structure that corresponds to a table in your database, some common functionality is in order. Generally one would expect at least the basic CRUD functionality, and ofcourse reading can mean one or more records so more functions can be added. Here's a basic CRUD implementation that is required for any model.
+Now that you have a structure that corresponds to a table in your database, some common functionality is in order. Generally, one would at least expect the basic CRUD functionality. Here's a basic CRUD implementation that is required for any model:
 
 - `FindAll()`, for retrieving all records in the table
 ```Go
@@ -498,9 +496,9 @@ func (model *Cat) Delete(id string) error {
 }
 ```
 
-All of the above functions will return an error if they cannot perform what they're supposed to do, that's useful to inform the user if the data they're looking for exists or is stored. For detailed utilization of these functions, have a look the handlers section. 
+All of the above functions will return an error if they cannot perform what they're supposed to. That's useful to inform users if the data they're looking for exists or is stored. For detailed utilisation of these functions, check out the handlers folder. 
 
-These functions are not abstracted to allow granular control over each model as each individual model can quickly morph into something very large with child elements, preload functions and pagination. 
+These functions are not abstracted to allow granular control over each model, as each individual model can quickly morph into something very large with child elements, preload functions and pagination. 
 
 
 #### Model Accessibility
@@ -517,7 +515,7 @@ if err != nil {
 ...
 ```
 
-The problem with the above code is that you'd need to instantiate a new struct `catModel` from `&Cat{}` in order to have a pointer receiver that can call the `Find()` function. You can avoid that by using the following common structure for all models, right at the top of the model before it's declaration to maintain consistency.
+The problem with the code above is that you will need to instantiate a new struct `catModel` from `&Cat{}` in order to have a pointer receiver that can call the `Find()` function. You can avoid that by using the following common getter structure for all models, right at the top of the model before its declaration to maintain consistency.
 ```Go
 var cat *Cat = &Cat{}
 
@@ -525,17 +523,17 @@ func CatModel() *Cat {
 	return cat
 }
 ```
-The above will now create a singleton pattern that you can access from any component within the package like `models.CatModel().Find()`
+The above will now create a singleton pattern that you can access from any component within the package like `models.CatModel().Find()`.
 
-> Note: the `CatModel()` method should only be used to fetch data from the database, saving, updating and deleting data should be applied to an actual instance that has been returned through a `Find()`, `FindAll()` or `FindMany()` functions.
+> Note: the `CatModel()` method should only be used to fetch data from the database. Saving, updating and deleting data should be applied to an actual instance that has been returned through a `Find()`, `FindAll()` or `FindMany()` function.
 
 #### Working with JSON Forms
 
-Once you have retrieved the records needed from the database, you may want to send those records as a response to the user. To do that, forms have been created, while every model is expected to have at least one method named `MapToForm()` that returns a json representation of that model. 
+Once you have retrieved the records needed from the database, you may want to send those records as a response. To do that, you can use forms. Every model is expected to have at least one method named `MapToForm()` that returns a JSON representation of that model. 
 
-Forms are basic structures that may or may not exactly match all the properties that a model has, the reason why it's done this way is to enable multiple forms where one can contain all model properties, intended for an admin user to view, while another may contain a sanitized version of that model, intended only for a read-only user. 
+Forms are basic structures that may or may not exactly match all the properties that a model has. The reason it has been done this way is to enable multiple forms where one can contain all model properties e.g. intended for an admin user to view, while another may contain a sanitised version of that model e.g. intended only for a read-only user. 
 
-For more details on creating a form, scroll down to the forms section below. Here you'll find a sample implementation of `MapToForm()` function
+For more details on creating a form, scroll down to the forms section below. Here you'll find a sample implementation of `MapToForm()` function.
 ```Go
 func (model *Cat) MapToForm() *CatForm {
 	form := &CatForm{
@@ -604,17 +602,17 @@ func (model *Cat) Delete(id string) error {
 	return db.Model(model).Where("ID=?", id).Delete(&model).Error
 }
 ```
-Feel free to copy the above code and replace the name `Cat` to get started. 
+Copy the code above and replace the name `Cat` to get started. 
 </details>
 
 <details>
 <summary><b>Forms</b></summary>
 
-Forms are data contracts that are used to send responses to clients and receive/bind user input. 
+Forms are data contracts that are used to send responses to clients and receive/ bind user input. 
 
-Each model can have many forms to enable sending specific values with different endpoints. An example scenario would be having an admin with full access to all data in a record whereas a customer has access to a subset of that data.
+Each model can have many forms to enable sending specific values with different endpoints. An example scenario would be having an admin with full access to all data in a record whereas a customer has access only to a subset of that data.
 
-Data validation is applied to fields in forms. Here's a sample form to get you started 
+Data validation is applied to fields in forms. Here's a sample form to get you started.
 ```Go
 type CatForm struct {
 	FormBase
@@ -632,21 +630,21 @@ func (form *CatForm) MapToModel() *Cat {
 
 The `FormBase` struct provides the `ID`, `CreatedAt` and `UpdatedAt` fields. 
 
-Each field should specify the name mapping in json format along with validation rules. For more on validations check out the [Playground Validator documentation](https://github.com/go-playground/validator).
+Each field should specify the name mapping in JSON format along with validation rules. For more on validations check out the [Playground Validator documentation](https://github.com/go-playground/validator). To skip validations all together, use `validate:"-"`.
 
-Finally, each form should have a `MapToModel()` function that returns a form so it can be stored after it's been mapped and validated. 
+Finally, each form should have a `MapToModel()` function that returns a model, so it can be stored after it has been validated. Note that forms do not set a model's `ID` property as that is the job of the model. Instead, it must be set manually prior to a database operation. Think of this like an actual form you fill up that has a section "for office use only". 
 </details>
 
 <details>
 <summary><b>Handlers</b></summary>
 
-> Note: this go boilerplate uses [Echo](https://echo.labstack.com). If you're ever in doubt you can refer to Echo's documentation for more details on what's possible with routers.
+> Note: This go boilerplate uses [Echo](https://echo.labstack.com). If you're ever in doubt, you can refer to Echo's documentation for more details on what's possible with routers.
 
-A handler is any function with the `func (c echo.Context) error` signature. All handlers should be stored under `pkg/api/handlers` and categorized in directories following their entity name in plural form. For readability and maintainability, we encourage maintaining a single handler in a single file as we all know go files can quickly grow.
+A handler is any function with the `func (c echo.Context) error` signature. All handlers should be stored under `pkg/api/handlers` and categorized in directories following their entity name in plural form. For readability and maintainability, we encourage maintaining a single handler in a single file as we all know that Go files can quickly grow.
 
-Handlers should also be nested, that means a cats handlers directory can contain a sub directory such as `cats/tags` for example, this helps avoid long file names and ease readability. 
+Handlers should also be nested, which means a Cats handlers directory can contain a sub directory, such as `cats/tags`, that helps avoid long file names and improve readability. 
 
-How handlers look like will largerly depend on your project's business logic and requirements, for reference, here's a quick sample to give an idea on how you should construct your handler.
+How handlers look will largely depend on your project's business logic and requirements. For reference, here's a quick sample to give an idea on how you should construct your handler.
 
 ```Go
 func Get(c echo.Context) error {
@@ -667,17 +665,21 @@ func Get(c echo.Context) error {
 
 }
 ```
+And perhaps another example to demonstrate how to receive user input and store a model.
+```Go
+
+```
 
 </details>
 
 <details>
 <summary><b>Routers</b></summary>
 
-> Note: this go boilerplate uses [Echo](https://echo.labstack.com). If you're ever in doubt you can refer to Echo's documentation for more details on what's possible with routers.
+> Note: This go boilerplate uses [Echo](https://echo.labstack.com). If you're ever in doubt, you can refer to Echo's documentation for more details on what's possible with routers.
 
-This boilerplate is shipped with 3 routers, public, privdate and hidden routers. all of them follow the same structure and procedure with slight differences in what is registered within them. 
+This boilerplate is shipped with 3 routers, public, privdate and hidden routers - all of which ollow the same structure and procedure with slight differences in what is registered within each. 
 
-Why have 3 routers? well, some projects may have public and protected routes and such use-case is straightforward, the latter implements an authentication middleware while the first doesn't. Attempting to achieve such behaviour within a single router can be tricky, so isolated routers running on different ports are used instead. The third "hidden" router is provided to enable a pattern commonly used to allow one microservice to communicate with another without exposing those routes to the public internet. With that said, wiring those 3 routers can easily be achieved by a different service like kubernetes or nginx. 
+Why have 3 routers? Well, some projects may have public and protected routes, and such use case is straightforward. The latter implements an authentication middleware while the first does not. Attempting to achieve such behaviour within a single router can be tricky, so isolated routers running on different ports are used instead. The third "hidden" router is provided to enable a pattern commonly used to allow one microservice to communicate with another without exposing those routes to the public internet. With that said, wiring those 3 routers can easily be achieved through a different service like Kubernetes or NGINX. 
 
 All routers should go through the following process: 
 1. Initialization 
