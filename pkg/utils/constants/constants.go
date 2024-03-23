@@ -84,6 +84,7 @@ const (
 	MSG_UNABLE_TO_BIND_BODY         string = "error binding body"
 	MSG_FORBIDDEN                   string = "forbidden"
 	MSG_UNKNOWN_DB_PLATFORM         string = "unknown database platform"
+	MSG_INTERNAL_SERVER             string = "internal server error"
 
 	// output status codes
 	STATUS_CODE_SERVICE_SUCCESS                            string = "20001"
@@ -115,6 +116,7 @@ const (
 	STATUS_CODE_ID_NOT_FOUND                               string = "40404"
 	STATUS_CODE_NOT_ACCEPTABLE_WITHOUT_ACCEPT_HEADER       string = "40601"
 	STATUS_CODE_NOT_ACCEPTABLE_WITHOUT_CONTENT_TYPE_HEADER string = "40602"
+	STATUS_CODE_INTERNAL_SERVER_ERROR                      string = "50001"
 	STATUS_CODE_FAILED_TO_DECODE_VALUE                     string = "50011"
 )
 
@@ -129,4 +131,5 @@ var (
 	ERROR_ACCESS_IDS_NOT_FOUND = errors.New(MSG_SESSION_NOT_FOUND)
 	ERROR_BINDING_BODY         = errors.New(MSG_UNABLE_TO_BIND_BODY)
 	ERROR_UNKNOWN_DB_PLATFORM  = errors.New(MSG_UNKNOWN_DB_PLATFORM)
+	ERROR_INTERNAL_SERVER      = errors.New(MSG_INTERNAL_SERVER)
 )

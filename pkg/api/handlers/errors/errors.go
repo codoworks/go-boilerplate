@@ -37,6 +37,10 @@ func ErrorsMap() map[error]interface{} {
 		"internalCode": http.StatusForbidden,
 		"serviceCode":  constants.STATUS_CODE_NOT_AUTHORIZED,
 	}
+	errorMap[constants.ERROR_INTERNAL_SERVER] = map[string]interface{}{
+		"internalCode": http.StatusInternalServerError,
+		"serviceCode":  constants.STATUS_CODE_INTERNAL_SERVER_ERROR,
+	}
 
 	// gorm errors
 	errorMap[gorm.ErrRecordNotFound] = map[string]interface{}{
