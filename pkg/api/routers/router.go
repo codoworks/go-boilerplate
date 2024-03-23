@@ -20,6 +20,7 @@ import (
 )
 
 type Router struct {
+	// echo.Echo // change how echo is embedded
 	Echo *echo.Echo
 	Name string
 }
