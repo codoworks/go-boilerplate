@@ -5,7 +5,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/codoworks/go-boilerplate)](https://goreportcard.com/report/github.com/codoworks/go-boilerplate)
 [![CodeQL](https://github.com/codoworks/go-boilerplate/actions/workflows/codeql.yml/badge.svg)](https://github.com/codoworks/go-boilerplate/actions/workflows/codeql.yml)
 [![Codacy Security Scan](https://github.com/codoworks/go-boilerplate/actions/workflows/codacy.yml/badge.svg)](https://github.com/codoworks/go-boilerplate/actions/workflows/codacy.yml)
-
+[![Actively Maintained](https://img.shields.io/badge/Maintenance%20Level-Actively%20Maintained-green.svg)](https://gist.github.com/cheerfulstoic/d107229326a01ff0f333a1d3476e068d)
 
 This is a backend service skeleton or boilerplate to speed up development process. Over time, this package has become opinionated and behaves more like a framework with a set of predefined features.
 This package was developed using `GoLang v1.21`. 
