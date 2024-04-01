@@ -53,7 +53,7 @@ Similarly for authorisation, [ory keto](https://www.ory.sh/open-source/) is the 
 
 #### Maintenance
 
-Often, you may need to run something in the background like a cleanup job or perhaps an email watcher. This service is designed with that in mind too. It even provides a watcher that you can run with an http server or indenpendently. Using the same structure you can create your own too.
+Often, you may need to run something in the background like a clean up job or perhaps an email watcher. This service is designed with that in mind too. It even provides a watcher that you can run with an http server or independently. Using the same structure you can create your own too.
 
 #### Administration
 
@@ -445,7 +445,7 @@ Notice how every property contains a `gorm` decoration to specify things like fi
 
 Your model may sometimes contain properties that do not correspond to a database column. To do that, you simply need to use the `gorm:"-"` decoration. 
 
-> Note: Given that this package is designed to work with multiple database servers like MySQL or Postgres, some data types may be available in some servers and not others. It's worth testing your application with differnet servers from time to time to accomodate easy switching of database server, unless your use case relies on a specific data type - in which case you're making a calculated decision to lock your application to that server.
+> Note: Given that this package is designed to work with multiple database servers like MySQL or Postgres, some data types may be available in some servers and not others. It's worth testing your application with different servers from time to time to accomodate easy switching of database server, unless your use case relies on a specific data type - in which case you're making a calculated decision to lock your application to that server.
 
 #### Common Basic Functionality
 
