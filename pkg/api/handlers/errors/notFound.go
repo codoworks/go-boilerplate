@@ -8,18 +8,24 @@ package errors
 import (
 	"net/http"
 
-	"github.com/codoworks/go-boilerplate/pkg/api/handlers"
+	"github.com/codoworks/go-boilerplate/pkg/api/context"
 	"github.com/codoworks/go-boilerplate/pkg/utils/constants"
 
 	"github.com/labstack/echo/v4"
 )
 
 func NotFound(c echo.Context) error {
-	return c.JSON(
+
+	cc := c.(*context.Ctx) // custom context
+
+	return cc.JSON(
 		http.StatusNotFound,
-		handlers.BuildResponse(
+		cc.BuildResponse(
 			constants.STATUS_CODE_ROUTE_NOT_FOUND,
 			constants.MSG_ROUTE_NOT_FOUND,
 			[]string{},
-			nil))
+			nil,
+		),
+	)
+
 }

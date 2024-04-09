@@ -8,7 +8,7 @@ package middlewares
 import (
 	"net/http"
 
-	"github.com/codoworks/go-boilerplate/pkg/api/handlers"
+	"github.com/codoworks/go-boilerplate/pkg/api/context"
 	"github.com/codoworks/go-boilerplate/pkg/utils/constants"
 
 	"github.com/labstack/echo/v4"
@@ -17,8 +17,11 @@ import (
 func RequestHeadersMiddleware() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
+
+			cc := c.(*context.Ctx) // custom context
+
 			if (len(c.Request().Header["Accept"]) == 0) || c.Request().Header["Accept"][0] != "application/json" {
-				r := handlers.BuildResponse(
+				r := cc.BuildResponse(
 					constants.STATUS_CODE_NOT_ACCEPTABLE_WITHOUT_ACCEPT_HEADER,
 					constants.MSG_NOT_ACCEPTABLE,
 					[]string{constants.MSG_MISSING_ACCEPT_HEADER},
@@ -29,7 +32,7 @@ func RequestHeadersMiddleware() echo.MiddlewareFunc {
 				return next(c)
 			}
 			if (len(c.Request().Header["Content-Type"]) == 0) || c.Request().Header["Content-Type"][0] != "application/json" {
-				r := handlers.BuildResponse(
+				r := cc.BuildResponse(
 					constants.STATUS_CODE_NOT_ACCEPTABLE_WITHOUT_CONTENT_TYPE_HEADER,
 					constants.MSG_NOT_ACCEPTABLE,
 					[]string{constants.MSG_MISSING_CONTENT_TYPE_HEADER},

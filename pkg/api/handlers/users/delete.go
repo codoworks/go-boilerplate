@@ -6,24 +6,27 @@ Contact: dexter.codo@gmail.com
 package users
 
 import (
-	"net/http"
-
-	"github.com/codoworks/go-boilerplate/pkg/api/handlers"
+	"github.com/codoworks/go-boilerplate/pkg/api/context"
 	"github.com/codoworks/go-boilerplate/pkg/clients/kratos"
-	"github.com/codoworks/go-boilerplate/pkg/utils/constants"
 
 	"github.com/labstack/echo/v4"
 )
 
 func Delete(c echo.Context) error {
-	id, err := handlers.GetUUIDParam(c.Param("id"))
-	if err != nil {
-		c.Logger().Error(constants.ERROR_ID_NOT_FOUND)
-		return constants.ERROR_ID_NOT_FOUND
+
+	cc := c.(*context.Ctx) // custom context
+
+	id := c.Param("id")
+
+	if ok := cc.ValidateID(id); !ok {
+		return cc.IdIsInvalid()
 	}
+
 	kratosCli := kratos.GetClient()
-	if err := kratosCli.DeleteIdentity(id.String()); err != nil {
-		return err
+
+	if err := kratosCli.DeleteIdentity(id); err != nil {
+		return cc.Err(err, nil)
 	}
-	return c.JSON(http.StatusAccepted, handlers.Accepted())
+
+	return cc.Accepted()
 }

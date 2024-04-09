@@ -6,30 +6,28 @@ Contact: dexter.codo@gmail.com
 package cats
 
 import (
-	"net/http"
-
-	"github.com/codoworks/go-boilerplate/pkg/api/handlers"
-	"github.com/codoworks/go-boilerplate/pkg/api/helpers"
+	"github.com/codoworks/go-boilerplate/pkg/api/context"
 	"github.com/codoworks/go-boilerplate/pkg/db/models"
-	"github.com/codoworks/go-boilerplate/pkg/utils/constants"
 
 	"github.com/labstack/echo/v4"
 )
 
 func Get(c echo.Context) error {
 
+	cc := c.(*context.Ctx) // custom context
+
 	id := c.Param("id")
 
-	if id == "" {
-		return helpers.Error(c, constants.ERROR_ID_NOT_FOUND, nil)
+	if ok := cc.ValidateID(id); !ok {
+		return cc.IdIsInvalid()
 	}
 
 	m, err := models.CatModel().Find(id)
 
 	if err != nil {
-		return helpers.Error(c, err, nil)
+		return cc.Err(err, nil)
 	}
 
-	return c.JSON(http.StatusOK, handlers.Success(m.MapToForm()))
+	return cc.Success(m.MapToForm())
 
 }

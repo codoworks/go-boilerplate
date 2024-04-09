@@ -24,6 +24,9 @@ func InitProtectedAPIRouter() {
 	protectedApiRouter.Name = "protected API"
 	protectedApiRouter.Init()
 
+	// first middleware to be registered must be the custom context middleware
+	protectedApiRouter.RegisterMiddleware(middlewares.CustomContextMiddleware())
+
 	// order is important here
 	// first register development middlewares
 	if config.DevModeFlag {

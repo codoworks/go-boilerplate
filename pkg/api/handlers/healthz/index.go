@@ -6,19 +6,20 @@ Contact: dexter.codo@gmail.com
 package healthz
 
 import (
-	"net/http"
-
-	"github.com/codoworks/go-boilerplate/pkg/api/handlers"
+	"github.com/codoworks/go-boilerplate/pkg/api/context"
 	"github.com/codoworks/go-boilerplate/pkg/config"
 
 	"github.com/labstack/echo/v4"
 )
 
 func Index(c echo.Context) error {
+
+	cc := c.(*context.Ctx) // custom context
+
 	payload := map[string]string{
 		"message": "ok",
 		"version": config.Env.Version,
 	}
 
-	return c.JSON(http.StatusOK, handlers.Success(payload))
+	return cc.Success(payload)
 }

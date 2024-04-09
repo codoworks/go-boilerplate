@@ -23,6 +23,9 @@ func InitPublicAPIRouter() {
 	publicApiRouter.Name = "public API"
 	publicApiRouter.Init()
 
+	// first middleware to be registered must be the custom context middleware
+	publicApiRouter.RegisterMiddleware(middlewares.CustomContextMiddleware())
+
 	// order is important here
 	// first register development middlewares
 	if config.DevModeFlag {

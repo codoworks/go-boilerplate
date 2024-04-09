@@ -6,25 +6,30 @@ Contact: dexter.codo@gmail.com
 package users
 
 import (
-	"net/http"
-
-	"github.com/codoworks/go-boilerplate/pkg/api/handlers"
+	"github.com/codoworks/go-boilerplate/pkg/api/context"
 	"github.com/codoworks/go-boilerplate/pkg/clients/kratos"
-	"github.com/codoworks/go-boilerplate/pkg/utils/constants"
 
 	"github.com/labstack/echo/v4"
 )
 
 func Get(c echo.Context) error {
-	id, err := handlers.GetUUIDParam(c.Param("id"))
-	if err != nil {
-		c.Echo().Logger.Error(constants.ERROR_ID_NOT_FOUND)
-		return constants.ERROR_ID_NOT_FOUND
+
+	cc := c.(*context.Ctx) // custom context
+
+	id := c.Param("id")
+
+	if ok := cc.ValidateID(id); !ok {
+		return cc.IdIsInvalid()
 	}
+
 	kratosCli := kratos.GetClient()
-	identity, err := kratosCli.GetIdentity(id.String())
+
+	identity, err := kratosCli.GetIdentity(id)
+
 	if err != nil {
-		return err
+		return cc.Err(err, nil)
 	}
-	return c.JSON(http.StatusOK, handlers.Success(identity))
+
+	return cc.Success(identity)
+
 }

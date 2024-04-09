@@ -22,6 +22,9 @@ func InitHiddenAPIRouter() {
 	hiddenApiRouter.Name = "hidden API"
 	hiddenApiRouter.Init()
 
+	// first middleware to be registered must be the custom context middleware
+	hiddenApiRouter.RegisterMiddleware(middlewares.CustomContextMiddleware())
+
 	// order is important here
 	// first register development middlewares
 	if config.DevModeFlag {

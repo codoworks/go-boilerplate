@@ -9,7 +9,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/codoworks/go-boilerplate/pkg/api/handlers"
+	"github.com/codoworks/go-boilerplate/pkg/api/context"
 	"github.com/codoworks/go-boilerplate/pkg/utils/constants"
 
 	"github.com/labstack/echo/v4"
@@ -55,6 +55,8 @@ func unwrapRecursive(err error) error {
 }
 
 func (h *httpErrorHandler) Handler(err error, c echo.Context) {
+	cc := c.(*context.Ctx) // custom context
+
 	he, ok := err.(*echo.HTTPError)
 	var serviceCode string
 	if ok {
@@ -75,7 +77,7 @@ func (h *httpErrorHandler) Handler(err error, c echo.Context) {
 	code := he.Code
 	message := he.Message
 	if _, ok := he.Message.(string); ok {
-		message = handlers.BuildResponse(
+		message = cc.BuildResponse(
 			serviceCode,
 			constants.MSG_ERROR,
 			[]string{err.Error()},
@@ -89,7 +91,7 @@ func (h *httpErrorHandler) Handler(err error, c echo.Context) {
 			err = c.JSON(code, message)
 		}
 		if err != nil {
-			c.Echo().Logger.Error(err)
+			c.Logger().Error(err)
 		}
 	}
 }

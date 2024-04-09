@@ -6,42 +6,44 @@ Contact: dexter.codo@gmail.com
 package cats
 
 import (
-	"net/http"
-
-	"github.com/codoworks/go-boilerplate/pkg/api/handlers"
-	"github.com/codoworks/go-boilerplate/pkg/api/helpers"
+	"github.com/codoworks/go-boilerplate/pkg/api/context"
 	"github.com/codoworks/go-boilerplate/pkg/db/models"
-	"github.com/codoworks/go-boilerplate/pkg/utils/constants"
 
 	"github.com/labstack/echo/v4"
 )
 
 func Put(c echo.Context) error {
 
+	cc := c.(*context.Ctx) // custom context
+
 	id := c.Param("id")
 
-	if id == "" {
-		return helpers.Error(c, constants.ERROR_ID_NOT_FOUND, nil)
+	if ok := cc.ValidateID(id); !ok {
+		return cc.IdIsInvalid()
 	}
 
 	f := &models.CatForm{}
 
-	if err := c.Bind(f); err != nil {
-		return helpers.Error(c, constants.ERROR_BINDING_BODY, err)
+	if err := cc.BindAndValidate(f); err != nil {
+		return cc.Err(err, nil)
 	}
 
-	if err := helpers.Validate(f); err != nil {
-		return c.JSON(http.StatusBadRequest, handlers.ValidationErrors(err))
-	}
+	// if err := c.Bind(f); err != nil {
+	// 	return helpers.Error(c, constants.ERROR_BINDING_BODY, err)
+	// }
+
+	// if err := helpers.Validate(f); err != nil {
+	// 	return c.JSON(http.StatusBadRequest, handlers.ValidationErrors(err))
+	// }
 
 	m := f.MapToModel()
 
 	m.ID = id
 
 	if err := m.Update(); err != nil {
-		return helpers.Error(c, err, nil)
+		return cc.Err(err, nil)
 	}
 
-	return c.JSON(http.StatusOK, handlers.Success(m.MapToForm()))
+	return cc.Success(m.MapToForm())
 
 }
