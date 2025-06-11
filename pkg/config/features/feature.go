@@ -192,7 +192,7 @@ func (f *Feature) ResolveFeatureEnabledState(v reflect.Value) {
 }
 
 func (f *Feature) GetConfigByNameForPrint(name string) string {
-	config, _ := f.Config.(map[string]string)[name]
+	config := f.Config.(reflect.Value).FieldByName(name).String()
 	if config == "" {
 		return " <-------------------------------------- MISSING"
 	}
